@@ -8,13 +8,12 @@ Steps
 Pract  5.3
 multiple parameters to add two numbers
 
-Code: 
-package prac5; 
+Code:  
 interface A 
 { 
 int add(int i, int j); 
 } 
-public class LambdaEx3 
+public class test 
 { 
 { 
 public static void main(String[] args) 
