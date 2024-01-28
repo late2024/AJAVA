@@ -1,0 +1,31 @@
+Steps 
+1 - new > project > java project > finish
+2- SRC > right click > new > package > give any name
+3 -package > right click > new > class >GenericMethod
+4- past code save & run
+
+Pract 1.2
+
+Generic method
+
+Code : 
+
+public class GenericMethod {
+void display()
+{
+System.out.println("generic method example");
+}
+<T>void gdisplay(T e)
+{
+System.out.println(e.getClass().getName()+ "=" +e);
+}
+public static void main (String [] args)
+{
+GenericMethod g1=new GenericMethod();
+g1.display();
+g1.gdisplay(1);
+g1.gdisplay("rohan");
+g1.gdisplay("11.0");
+}
+}
+
