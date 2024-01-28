@@ -1,0 +1,31 @@
+Steps 
+1 - new > project > java project > finish   //name-  lambda
+2- SRC > right click > new > package > give any name
+3 -package > right click > new > class >  test
+4- past code save & run
+
+
+Pract  5.3
+multiple parameters to add two numbers
+
+Code: 
+package prac5; 
+interface A 
+{ 
+int add(int i, int j); 
+} 
+public class LambdaEx3 
+{ 
+{ 
+public static void main(String[] args) 
+A obj = (i, j)-> i+j; 
+//When i+j is an expression it becomes return type. 
+int result = obj.add(2,5); 
+System.out.println(result); 
+} 
+} 
+
+
+
+
+
