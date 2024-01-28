@@ -1,0 +1,33 @@
+Steps 
+1 - new > project > java project > finish   //name-  lambda
+2- SRC > right click > new > package > give any name
+3 -package > right click > new > class >  test
+4- past code save & run
+
+Pract  5.5
+Expression with or without return keyword 
+
+
+Code: 
+ 
+interface B 
+{ 
+int calculate(int i, int j); 
+} 
+public class test 
+{ 
+public static void main(String[] args) 
+{ 
+}; 
+B obj1 = (i,j) -> i+j; 
+int resultadd=obj1.calculate(30, 20); System.out.println(resultadd); 
+B obj2 = (i,j)-> 
+{ 
+}; 
+return i-j; 
+int resultsub=obj2.calculate(40,25); 
+System.out.println(resultsub); 
+} 
+
+
+
