@@ -1,0 +1,17 @@
+Steps 
+1 - new > project > java project > finish   //name-  lambda
+2- SRC > right click > new > package > give any name
+3 -package > right click > new > class >  test
+4- past code save & run
+
+
+Pract  5.1
+Hello World
+
+Code : 
+public class test{
+	public static void main(String[]args) {
+		Runnable helo = () -> System.out.print("hello world");
+		helo.run();
+	}
+}
