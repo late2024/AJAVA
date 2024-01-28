@@ -1,0 +1,28 @@
+Steps 
+1 - new > project > java project > finish
+2- SRC > right click > new > package > give any name
+3 -package > right click > new > class >  Array list
+4- past code save & run
+
+Pract 2.1
+
+ Array list
+
+Code : 
+
+import java.util.ArrayList;
+public class Array1 {
+public static void main(String [] args) {
+ArrayList<String>list=new ArrayList<String>();
+list.add("MATHS");
+list.add("ADBMS");
+list.add("JAVA");
+list.add("PYTHON");
+System.out.println(list);
+System.out.println("Traversing list though for each loop");
+for(String subject :list)
+System.out.println(subject);
+
+}
+}
+
