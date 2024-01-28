@@ -1,0 +1,42 @@
+Steps 
+1 - new > project > java project > finish
+2- SRC > right click > new > package > give any name
+3 -package > right click > new > class >  set1
+4- past code save & run
+
+Pract  3.2
+
+Hashset
+
+Code : 
+import java.util.HashSet;
+import java.util.Set;
+
+public class Set1 {
+    public static void main(String[] args) {
+        Set<String> set1 = new HashSet<>(); // Capitalize "Set"
+        set1.add("Shantanu");
+        set1.add("Hrithik");
+        set1.add("Kausthub");
+        set1.add("Rohit");
+        set1.add("Mayur");
+        System.out.println("Set1:" + set1);
+
+        Set<String> set2 = new HashSet<>();
+        set2.add("Jay");
+        set2.add("Hind");
+        set2.add("Bharat");
+
+        set1.addAll(set2);
+        System.out.println("Set1 after adding items from set2:" + set1);
+
+        set1.remove("Hind"); // Add a semicolon
+        System.out.println("Set1 after removing Hind:" + set1);
+
+        boolean isPresent = set1.contains("Hrithik"); // Remove extra "l"
+        System.out.println("Is Hrithik present in the set?" + isPresent);
+    }
+}
+
+
+
