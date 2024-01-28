@@ -1,0 +1,35 @@
+Steps 
+1 - new > project > java project > finish
+2- SRC > right click > new > package > give any name
+3 -package > right click > new > class >  Set
+4- past code save & run
+
+Pract 3 .1
+
+Set
+
+Code : 
+
+import java.util.*;
+public class Set{
+public static void main(String[] args)
+{
+List<String>names=new LinkedList<>();
+names.add("Ankeet");
+names.add("Omkar");
+names.add("Varad");
+ListIterator<String>listIterator=names.listIterator();
+System.out.println("Forward Direction Iteration:");
+while(listIterator.hasNext())
+{
+System.out.println(listIterator.next());
+}
+System.out.println("Backward Direction Iteration:");
+while(listIterator.hasPrevious())
+{
+System.out.println(listIterator.previous());
+}
+}
+}
+
+
