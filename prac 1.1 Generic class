@@ -1,0 +1,30 @@
+Steps 
+1 - new > project > java project > finish
+2- SRC > right click > new > package > give any name
+3 -package > right click > new > class >test
+4- past code save& run
+
+
+Pract 1.1
+
+Generic class
+
+Code : 
+
+package prac1;
+class test<T>{
+T obj;
+test (T obj) {
+this.obj=obj;
+}
+public T getobject(){
+return this.obj;
+}
+}
+class GenericClass{
+public static void main(String[] args) {
+test<Integer> iobj=new test<Integer>(20);
+System.out.println("The value of Integer is:"+iobj.getobject());
+}
+}
+
