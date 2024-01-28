@@ -1,0 +1,31 @@
+Steps 
+1 - new > project > java project > finish   //name-  lambda
+2- SRC > right click > new > package > give any name
+3 -package > right click > new > class >  test
+4- past code save & run
+
+Pract  5.2
+
+single parameters 
+
+Code : 
+import java.util.Arrays;
+import java.util.List;
+public class test {
+public static void main(String[] args) {
+// TODO Auto-generated method stub
+List<String> n = Arrays.asList("kaustubh", "shantanu",
+
+"mayur","guru");
+
+n.forEach(a-> System.out.println("hello "+a+ " !"));
+}
+}
+
+
+Output: 
+Hello Shantanu! 
+Hello Hrithik! 
+Hello Kausthub! 
+Hello Mayur! Hello Rohit! 
+Hello Guru! 
