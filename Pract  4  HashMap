@@ -1,0 +1,46 @@
+Steps 
+1 - new > project > java project > finish
+2- SRC > right click > new > package > give any name
+3 -package > right click > new > class >  test
+4- past code save & run
+
+
+Pract  4
+
+HashMap
+
+Code : 
+import java.util.HashMap;
+import java.util.Map;
+public class test
+{
+public static void main(String[] args)
+{
+Map<Integer,String>map1=new HashMap<>();
+map1.put(1,"Shantanu");
+map1.put(2,"Hrithik");
+map1.put(3,"Kausthub");
+map1.put(4,"Rohit");
+map1.put(5,"Mayur");
+System.out.println("Map1:"+map1);
+Map<Integer,String>map2=new HashMap<>();
+map2.put(8,"Guru");
+map2.put(7,"kalpesh");
+map2.put(6,"hrithik");
+map1.putAll(map2);
+System.out.println("Map1 after adding items from map2:"+map1);
+map1.remove(3);
+System.out.println("Map1 after removing key3:"+map1);
+boolean isPresent=map1.containsKey(4);
+System.out.println("Is key4 present in map1?"+isPresent);
+String Value=map1.get(2);
+System.out.println("The value of key2 is:"+Value);
+System.out.println("Printing all keys and values of map1:");
+for(Map.Entry<Integer,String>entry:map1.entrySet())
+{
+System.out.println("Key:"+entry.getKey()+",Value:"+entry.getValue());
+}
+}
+}
+
+
