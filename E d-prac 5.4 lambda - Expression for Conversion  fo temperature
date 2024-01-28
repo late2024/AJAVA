@@ -1,0 +1,36 @@
+Steps 
+1 - new > project > java project > finish   //name-  lambda
+2- SRC > right click > new > package > give any name
+3 -package > right click > new > class >  test
+4- past code save & run
+
+
+Pract  5.4
+Lambda Expression for Conversion 
+
+
+Code: 
+ 
+interface Converter 
+{ 
+double convert(double input); 
+} 
+ADVANCED JAVA 
+public class test 
+{ 
+public static void main(String[] args) 
+{ 
+Converter a = f->(f - 32) * 5/9; 
+double celsius = a.convert(92); 
+System.out.println("92 degrees Fehrenhit is + celsius + " degree celcius."); //Kilometers to Miles 
+Converter kilometersToMiles km->km/1.609344; 
+= 
+double miles = kilometersToMiles.convert(52); 
+System.out.println("52 kilometers is " + miles + " miles."); 
+} 
+} 
+
+
+
+
+
