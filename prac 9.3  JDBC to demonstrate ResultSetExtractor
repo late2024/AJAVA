@@ -12,8 +12,9 @@ steps
                                         > ResultSetExtractorDemo
 - Create database in mysql cmd > create database emp;
                                > use emp;
-                               > CREATE TABLE emp (id int, name varchar(100), age int);
+                               > CREATE TABLE emp1 (id int, name varchar(100), age int);
                                > select*from emp;
+                               
 
 > ResultSetExtractorDemoApplication.java 
 
