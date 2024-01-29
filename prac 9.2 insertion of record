@@ -1,0 +1,111 @@
+Prac 9.2
+
+steps
+>open sts
+-new > spring starter project > set > type : Maven >java version : 17
+-select > SQL: JDBC API , SPRING DATA JDBC , MYSQL DRIVER 
+          WEB : Spring web
+-finish
+- select on project name > create class > Appconfig 
+                                        > Prac10new1Application
+                                        > prepared
+- Create database in mysql cmd > create database emp;
+                               > use emp;
+                               > CREATE TABLE emp (id int, name varchar(100), age int);
+                               > select*from emp;
+
+>Prac10new1Application
+
+package com.example.demo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+@SpringBootApplication
+
+public class Prac10new1Application {
+	public static void main(String[] args) {
+		SpringApplication.run(Prac10new1Application.class, args);
+	}
+	@Bean
+    public CommandLineRunner demo(prepared recordService) {
+        return args -> {
+           // Insert a record
+        	recordService.insertRecord("rohit", 25,1);
+
+        };
+    }
+
+}
+
+>Appconfig
+
+package com.example.demo;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import javax.sql.DataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+@Configuration
+
+public class Appconfig {
+	  @Bean
+	     DataSource dataSource() {
+	        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+	        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+	        dataSource.setUrl("jdbc:mysql://localhost:3306/emp");
+	        dataSource.setUsername("root");
+	        dataSource.setPassword("root");
+	        return dataSource;
+	    }
+
+	    @Bean
+	     JdbcTemplate jdbcTemplate(DataSource dataSource) {
+	        return new JdbcTemplate(dataSource);
+	    }
+
+}
+
+>prepared
+
+package com.example.demo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.stereotype.Service;
+
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+
+@Service
+
+public class prepared {
+	@Autowired
+    private JdbcTemplate jdbcTemplate;
+
+
+    public void insertRecord(String name, int age, int id) {
+        final String sql = "INSERT INTO emp (name, age, id) VALUES (?, ?, ?)";
+
+
+        jdbcTemplate.update(
+                new PreparedStatementCreator() {
+                    @Override
+                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                        PreparedStatement ps = connection.prepareStatement(sql);
+                        ps.setString(1, name);
+                        ps.setInt(2, age);
+                        ps.setInt(3, id);
+                        return ps;
+                    }
+                }
+        );
+
+
+        System.out.println("Inserted record with id: " + id);
+    }
+
+}
