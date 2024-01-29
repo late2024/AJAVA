@@ -14,3 +14,94 @@ steps
                                > CREATE TABLE emp (id int, name varchar(100), age int);
                                > select*from emp;
 - run first insert and "//" del and update query
+
+
+>Prac10new1Application.java
+
+package com.example.demo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+@SpringBootApplication
+
+public class Prac10new1Application {
+	public static void main(String[] args) {
+		SpringApplication.run(Prac10new1Application.class, args);
+	}
+	@Bean
+    public CommandLineRunner demo(Operationjdbc recordService) {
+        return args -> {
+//            // Insert a record
+        	//recordService.insertRecord("rohit", 25,1);
+
+            // Update the record
+            //recordService.updateRecord("rohit daundkar", 26,1);
+//
+//            // Delete the record
+           recordService.deleteRecord(1);
+        };
+    }
+
+}
+
+
+>Appconfig.java
+
+package com.example.demo;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import javax.sql.DataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+@Configuration
+
+public class Appconfig {	
+	
+	@Bean
+    DataSource dataSource() {
+       DriverManagerDataSource dataSource = new DriverManagerDataSource();
+       dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+       dataSource.setUrl("jdbc:mysql://localhost:3306/emp");
+       dataSource.setUsername("root");
+       dataSource.setPassword("root");
+       return dataSource;
+   }
+
+   @Bean
+    JdbcTemplate jdbcTemplate(DataSource dataSource) {
+       return new JdbcTemplate(dataSource);
+   }
+
+}
+
+
+>Operationjdbc.java
+
+package com.example.demo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+
+@Service
+
+public class Operationjdbc {
+	@Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    public void insertRecord(String name, int age ,int id) {
+        String sql = "INSERT INTO emp (name, age, id) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, name, age,id);
+    }
+
+    public void updateRecord( String name, int age ,int id) {
+        String sql = "UPDATE emp SET name = ?, age = ? where id=?";
+        jdbcTemplate.update(sql, name, age,id);
+    }
+
+    public void deleteRecord(int id) {
+        String sql = "DELETE FROM emp WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+}
+
