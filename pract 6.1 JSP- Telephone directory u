@@ -1,0 +1,297 @@
+Create a database and create table
+CREATE DATABASE PhoneDirectory;
+USE PhoneDirectory;
+CREATE TABLE Contacts (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+phone VARCHAR(20),
+email VARCHAR(255)
+);
+
+ steps to perform in spring >>
+ 1. create a java class in
+ > jax-ws web service // below this
+   >> open java resource >>src/main/java >>create package -> phonedirectory >> create class DBConnection.java
+>> then create jsp pages >> ass shown below the db connection code .
+
+   code :
+
+ //  DBConnection.java :
+
+   package phonedirectory;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+public class DBConnection {
+public static Connection getConnection() throws SQLException {
+String url = "jdbc:mysql://localhost:3306/telephone_directory";
+String username = "root";
+String password = "password";
+Connection connection = null;
+try {
+connection = DriverManager.getConnection(url, username, password);
+} catch (SQLException e) {
+e.printStackTrace();
+throw e; // You may want to handle this exception more gracefully in a real application
+}
+return connection;
+}
+}
+
+
+
+//Add_contact.jsp :
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+pageEncoding="ISO-8859-1"%>
+<%@ page import="java.sql.*" %>
+<%@ page import="phonedirectory.DBConnection" %><%
+Connection connection = DBConnection.getConnection();
+if (request.getMethod().equals("POST")) {
+String name = request.getParameter("name");
+String phone = request.getParameter("phone");
+String email = request.getParameter("email");
+if (name != null && phone != null && email != null) {
+try {
+// Insert the new contact into the database
+String insertQuery = "INSERT INTO contacts (name, phone, email) VALUES (?, ?, ?)";
+PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+preparedStatement.setString(1, name);
+preparedStatement.setString(2, phone);
+preparedStatement.setString(3, email);
+preparedStatement.executeUpdate();
+preparedStatement.close();
+} catch (SQLException e) {
+e.printStackTrace();
+}
+}
+}
+// Close the database connection
+if (connection != null) {
+connection.close();
+}
+%>
+<html>
+<body>
+<h1>Add a New Contact</h1>
+<form action="add_contact.jsp" method="post">
+<label>Name: <input type="text" name="name"></label><br>
+<label>Phone: <input type="text" name="phone"></label><br>
+<label>Email: <input type="text" name="email"></label><br>
+<input type="submit" value="Add Contact">
+<a href="display_contacts.jsp">show data</a>
+</form>
+</body>
+</html>
+
+
+Display_contact.jsp:
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="phonedirectory.DBConnection" %>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Display Users</title>
+</head>
+<body>
+<h1>Registered Users</h1>
+<table border="1">
+<tr>
+<th>User ID</th>
+<th>name</th>
+<th>phone</th>
+<th>Email</th>
+<th>Update</th>
+</tr>
+<%
+try {
+// Establish a database connection
+Connection connection = DBConnection.getConnection();
+// Create and execute an SQL SELECT statement
+String selectQuery = "SELECT * FROM contacts";
+Statement statement = connection.createStatement();
+ResultSet resultSet = statement.executeQuery(selectQuery);
+while (resultSet.next()) {
+int userId = resultSet.getInt("id");
+String username = resultSet.getString("name");
+String phone = resultSet.getString("phone");
+String email = resultSet.getString("email");
+%>
+<tr>
+<td><%= userId %></td>
+<td><%= username %></td>
+<td><%= phone %></td>
+<td><%= email %></td>
+<td>
+<a href="edit_contact.jsp?id=<%= userId %>">Edit</a>
+<a href="delete_contact.jsp?id=<%= userId %>">Delete</a>
+</td>
+</tr>
+<%
+}
+resultSet.close();
+statement.close();
+connection.close();
+} catch (SQLException e) {
+// Handle database errors here
+out.println("Database error: " + e.getMessage());
+}
+%>
+</table>
+</body>
+</html>
+
+
+Edit_contacts.jsp:
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="phonedirectory.DBConnection" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Edit Contact</title>
+</head>
+<body>
+<h1>Edit Contact</h1>
+<%
+Connection connection = null;
+PreparedStatement preparedStatement = null;
+ResultSet resultSet = null;
+try {
+// Establish a database connection
+connection = DBConnection.getConnection();
+// Check if an ID parameter is provided in the URL
+String idParam = request.getParameter("id");
+int contactId = -1;
+if (idParam != null) {
+contactId = Integer.parseInt(idParam);
+// Retrieve the contact's current details
+String selectQuery = "SELECT * FROM contacts WHERE id=?";
+preparedStatement = connection.prepareStatement(selectQuery);
+preparedStatement.setInt(1, contactId);
+resultSet = preparedStatement.executeQuery();
+if (resultSet.next()) {
+String currentName = resultSet.getString("name");
+String currentPhone = resultSet.getString("phone");
+String currentEmail = resultSet.getString("email");
+%>
+<form action="update_contact.jsp" method="post">
+<input type="hidden" name="id" value="<%= contactId %>">
+Name: <input type="text" name="name" value="<%= currentName %>"><br>
+Phone: <input type="text" name="phone" value="<%= currentPhone %>"><br>
+Email: <input type="text" name="email" value="<%= currentEmail %>"><br>
+<input type="submit" value="Update Contact">
+</form>
+<%
+}
+}
+} catch (SQLException e) {
+e.printStackTrace();
+} finally {
+// Close database resources individually
+if (resultSet != null) resultSet.close();
+if (preparedStatement != null) preparedStatement.close();
+if (connection != null) connection.close();
+}
+%>
+</body>
+</html>
+
+
+
+update _contact.jsp:
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="phonedirectory.DBConnection" %>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Update Contact</title>
+</head>
+<body>
+<h1>Update Contact</h1>
+<%
+Connection connection = null;
+PreparedStatement preparedStatement = null;
+try {
+// Establish a database connection
+connection = DBConnection.getConnection();
+// Get the data submitted from the form
+int contactId = Integer.parseInt(request.getParameter("id"));
+String newName = request.getParameter("name");
+String newPhone = request.getParameter("phone");
+String newEmail = request.getParameter("email");
+// Update the contact's information in the database
+String updateQuery = "UPDATE contacts SET name=?, phone=?, email=? WHERE id=?";
+preparedStatement = connection.prepareStatement(updateQuery);
+preparedStatement.setString(1, newName);
+preparedStatement.setString(2, newPhone);
+preparedStatement.setString(3, newEmail);
+preparedStatement.setInt(4, contactId);
+preparedStatement.executeUpdate();
+%>
+<p>Contact updated successfully.</p>
+<a href="display_contacts.jsp">Back to Contacts</a>
+<%
+} catch (SQLException e) {
+e.printStackTrace();
+%>
+<p>An error occurred while updating the contact: <%= e.getMessage() %></p>
+<%
+} finally {
+// Close database resources individually
+if (preparedStatement != null) preparedStatement.close();
+if (connection != null) connection.close();
+}
+%>
+</body>
+</html>
+
+
+Delete_contact.jsp:
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+pageEncoding="ISO-8859-1"%>
+<%@ page import="java.sql.*" %>
+<%@ page import="phonedirectory.DBConnection" %>
+<%
+Connection connection = DBConnection.getConnection();
+// Check if an ID parameter is provided in the URL
+String idParam = request.getParameter("id");
+if (idParam != null) {
+int contactId = Integer.parseInt(idParam);
+try {
+// Delete the contact from the database
+String deleteQuery = "DELETE FROM contacts WHERE id=?";
+PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+preparedStatement.setInt(1, contactId);
+preparedStatement.executeUpdate();
+preparedStatement.close();
+} catch (SQLException e) {
+e.printStackTrace();
+}
+}
+// Close the database connection
+if (connection != null) {
+connection.close();
+}
+%>
+<html>
+<body>
+<h1>Contact Deleted</h1>
+<p>The contact has been deleted successfully.</p>
+<a href="display_contacts.jsp">Back to Contacts</a>
+</body>
+</html>
+
+
+  
