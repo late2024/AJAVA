@@ -1,0 +1,91 @@
+steps 
+-new > create project in maven > filter -- aop --next > Artifict id - com.aop > finish
+-- then create classes make 3 packages > com.example > in this package make class > Application.java
+                                       > com.example.service > serv1.java
+                                       > com.example.aspect  >MyAspect.java
+>>Application.java
+package com.example;
+import com.example.service.serv1;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+@SpringBootApplication
+public class Application {
+public static void main(String[] args) {
+ConfigurableApplicationContext context = SpringApplication.run(Application.class,
+args);
+serv1 yourService = context.getBean(serv1.class);
+yourService.yourmethod();
+}
+}
+
+>>Serv1.java
+package com.example.service;
+import org.springframework.stereotype.Service;
+@Service
+public class serv1 {
+public void yourmethod() {
+System.out.println("Your method executed.");
+}
+}
+
+>>Pom.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<!-- Your own application should inherit from spring-boot-starter-parent -->
+		<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-parent</artifactId>
+<version>3.2.0</version>
+	</parent>
+	<artifactId>my</artifactId>
+	<groupId>aop</groupId>
+	<name>Spring Boot AOP Sample</name>
+	<description>Spring Boot AOP Sample</description>
+	<version>0.0.1-SNAPSHOT</version>
+	<url>http://projects.spring.io/spring-boot/</url>
+	<organization>
+		<name>Pivotal Software, Inc.</name>
+		<url>http://www.spring.io</url>
+	</organization>
+	<properties>
+		<main.basedir>${basedir}/../..</main.basedir>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+
+
+
+>>MyAspect.java
+
+package com.example.aspect;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
+@Aspect
+@Component
+public class MyAspect {
+@Before("execution(* com.example.service.serv1.yourmethod())")
+public void beforeAdvice() {
+System.out.println("Before advice executed.");
+}
+}
